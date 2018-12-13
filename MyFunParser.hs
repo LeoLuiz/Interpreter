@@ -41,37 +41,38 @@ binop name function = token (string name) *> pure function
 
 
 -- A parser for pow
-pow :: Parser Expr
-pow = chainl1 atomic (binop "^" (Bin Pow))
+potencia :: Parser Expr
+potencia = chainl1 atomic (binop "^" (Bin Potencia))
 
 
 -- A parser for multiplication and division
 mul :: Parser Expr
-mul = chainl1 pow (binop "*" (Bin Mul) <|> binop "/" (Bin Div))
+mul = chainl1 potencia (binop "*" (Bin Mul) <|> binop "/" (Bin Div))
 
 
 -- A parser for addition and subtraction
 add :: Parser Expr
 add = chainl1 mul (binop "+" (Bin Add) <|> binop "-" (Bin Sub))
 
-negative :: Parser Expr
-negative = do token (char '-')
+negativo :: Parser Expr
+negativo = do token (char '-')
               ex <- expr
-              return (Bin Negative ex ex)
+              return (Bin Negativo ex ex)
 
-negation :: Parser Expr
-negation = do token (char '!')
-              ex <- expr
-              return (Bin Negation ex ex)
+negacao :: Parser Expr
+negacao = do token (char '!')
+             ex <- expr
+             return (Bin Negacao ex ex)
 
 
 -- A parser for all logic-relational operators
-operator :: Parser Expr
-operator = chainl1 add (binop ">=" (Bin GEqual) <|> binop "<=" (Bin LEqual) <|> binop ">" (Bin GThen) <|> binop "<" (Bin LThen) <|> binop "=" (Bin Equal) <|> binop "!=" (Bin Different) <|> binop "&&" (Bin And) <|> binop "||" (Bin Or) <|> binop "!" (Bin Negation))
+opLog :: Parser Expr
+opLog = chainl1 add (binop ">=" (Bin MaiorIgual) <|> binop "<=" (Bin MenorIgual) <|> binop ">" (Bin Maior) 
+        <|> binop "<" (Bin Menor) <|> binop "=" (Bin Igual) <|> binop "!=" (Bin Diferente) <|> binop "&&" (Bin And) <|> binop "||" (Bin Or) <|> binop "!" (Bin Negacao))
 
 -- A parser for expressions
 expr :: Parser Expr
-expr = negative <|> negation <|> operator <|> add <|> pow <|> mul
+expr = negativo <|> negacao <|> opLog <|> add <|> potencia <|> mul
 
 -- A parser for assignment command
 assign2 :: Parser Cmd
@@ -122,7 +123,7 @@ readcmd = do token (string "read")
 seqcmd :: Parser Cmd
 seqcmd = token (char '{') *> montagem <* token (char ';') <* token (char '}')
     where
-      montagem = Seq <$> chainl1 ((:[]) <$> cmd) (token (char ';') *> pure (++))
+      montagem = Sequencia <$> chainl1 ((:[]) <$> cmd) (token (char ';') *> pure (++))
 
 
 -- A parser for command

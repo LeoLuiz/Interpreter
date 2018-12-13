@@ -1,4 +1,4 @@
-module Main where
+  module Main where
 
 import Parser (parse)
 import MyFunParser (cmd)
@@ -8,7 +8,7 @@ main :: IO ()
 main =
   do -- read the input program
      --input <- getContents
-     input <- getLine
+     input <- getContents
      -- do syntax analysis of the program
      case parse cmd input of
        -- it succeed: execute the program

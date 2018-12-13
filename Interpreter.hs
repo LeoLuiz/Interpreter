@@ -7,7 +7,7 @@ type Memory = [(String, Double)]
 
 -- initial memory
 initialMemory :: Memory
-initialMemory = [("x", 15)]
+initialMemory = [("",0)]
 
 -- Expression evaluation
 eval :: Memory -> Expr -> Double
@@ -18,21 +18,21 @@ eval m (Var v) =
     Nothing -> 0
 eval m (Bin op x y) =
   case op of
-    Add      -> vx + vy
-    Sub      -> vx - vy
-    Mul      -> vx * vy
-    Div      -> vx / vy
-    Pow      -> vx ** vy
-    Negative -> (-1)* vx
-    GThen    -> if    vx > vy then 1 else 0
-    LThen    -> if    vx < vy then 1 else 0
-    GEqual   -> if   vx >= vy then 1 else 0
-    LEqual   -> if   vx <= vy then 1 else 0
-    Equal    -> if   vx == vy then 1 else 0
-    Different-> if   vx /= vy then 1 else 0
+    Add        -> vx + vy
+    Sub        -> vx - vy
+    Mul        -> vx * vy
+    Div        -> vx / vy
+    Potencia   -> vx ** vy
+    Igual      -> if   vx == vy then 1 else 0
+    Diferente  -> if   vx /= vy then 1 else 0
+    Maior      -> if    vx > vy then 1 else 0
+    MaiorIgual -> if   vx >= vy then 1 else 0
+    Menor      -> if    vx < vy then 1 else 0
+    MenorIgual -> if   vx <= vy then 1 else 0
     And      -> if lvx && lvy then 1 else 0
     Or       -> if lvx || lvy then 1 else 0
-    Negation -> if ( vx == 0 || vy == 0 ) then 1 else 0
+    Negativo      -> (-1)* vx
+    Negacao -> if ( vx == 0 || vy == 0 ) then 1 else 0
   where
     vx = eval m x
     vy = eval m y
@@ -47,7 +47,7 @@ execute m (Assign v e)    = return ((v, eval m e) : m)
 execute m (Print e)       = do print (eval m e)
                                return m
 -- Execute for Seq structure, recursive
-execute m (Seq lista)     = sequencia m lista
+execute m (Sequencia lista)     = sequencia m lista
                               where
                                sequencia m [] = return m
                                sequencia m (x:xs) = do newMemory <- execute m x 
