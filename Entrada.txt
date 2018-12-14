@@ -1,0 +1,1 @@
+{read n 6; fatorial := 1; while(n>0){ fatorial := fatorial * n; n := n - 1;}; print fatorial; n := 8; i := 3; fib1 := 1; fib2 := 1 ; while(i <= n){ soma := fib1 + fib2; fib1 := fib2; fib2 := soma; i := i+1; }; print fib2;}
