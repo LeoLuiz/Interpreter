@@ -23,19 +23,38 @@ eval m (Bin op x y) =
     Mul        -> vx * vy
     Div        -> vx / vy
     Potencia   -> vx ** vy
-    Igual      -> if   vx == vy then 1 else 0
-    Diferente  -> if   vx /= vy then 1 else 0
-    Maior      -> if    vx > vy then 1 else 0
-    MaiorIgual -> if   vx >= vy then 1 else 0
-    Menor      -> if    vx < vy then 1 else 0
-    MenorIgual -> if   vx <= vy then 1 else 0
-    And      -> if lvx && lvy then 1 else 0
-    Or       -> if lvx || lvy then 1 else 0
-    Negativo      -> (-1)* vx
-    Negacao -> if ( vx == 0 || vy == 0 ) then 1 else 0
+
+    Igual      | (vx == vy) -> 1
+               | otherwise  -> 0
+
+    Diferente  | vx /= vy   -> 1
+               | otherwise  -> 0
+
+    Maior      | vx > vy    -> 1 
+               | otherwise  -> 0
+
+    MaiorIgual | vx >= vy   -> 1 
+               | otherwise  -> 0
+
+    Menor      | vx < vy    -> 1 
+               | otherwise  -> 0
+
+    MenorIgual | vx <= vy   -> 1 
+               | otherwise  -> 0
+
+    And        | lvx && lvy -> 1 
+               | otherwise  -> 0
+
+    Or         | lvx || lvy -> 1 
+               | otherwise  -> 0
+
+    Negativo   -> (-1)* vx
+    Negacao    | ( vx == 0 || vy == 0 ) -> 1
+               | otherwise              -> 0
   where
     vx = eval m x
     vy = eval m y
+
     lvx = if vx == 1 then True else False
     lvy = if vy == 1 then True else False
 
@@ -65,5 +84,4 @@ execute m (While e c1)    = repeticao m e c1
                                                     0         -> return m
                                                     otherwise -> do newMemory <- execute m c1
                                                                     repeticao newMemory e c1
-
 --End of Interpreter.hs
