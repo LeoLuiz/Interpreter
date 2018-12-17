@@ -16,6 +16,14 @@ eval m (Var v) =
   case lookup v m of
     Just x -> x
     Nothing -> 0
+eval m (BinUna op x) =
+  case op of
+    Negacao    | vx == 0    -> 1
+               | otherwise  -> 0
+               
+    Negativo   -> (-1)* vx
+  where
+    vx = eval m x
 eval m (Bin op x y) =
   case op of
     Add        -> vx + vy
@@ -46,10 +54,6 @@ eval m (Bin op x y) =
                | otherwise  -> 0
 
     Or         | lvx || lvy -> 1 
-               | otherwise  -> 0
-
-    Negativo   -> (-1)* vx
-    Negacao    | vx == 0    -> 1
                | otherwise  -> 0
   where
     vx = eval m x

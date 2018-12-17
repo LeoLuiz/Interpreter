@@ -57,12 +57,12 @@ add = chainl1 mul (binop "+" (Bin Add) <|> binop "-" (Bin Sub))
 negativo :: Parser Expr
 negativo = do token (char '-')
               ex <- expr
-              return (Bin Negativo ex ex)
+              return (BinUna Negativo ex)
 
 negacao :: Parser Expr
 negacao = do token (char '!')
              ex <- expr
-             return (Bin Negacao ex ex)
+             return (BinUna Negacao ex)
 
 
 -- A parser for all logic-relational operators
