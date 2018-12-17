@@ -4,6 +4,7 @@ module Language where
 data Expr = Cte Double
           | Var String
           | Bin Op Expr Expr
+          | Bin Op Expr
           deriving (Show)
 
 data Op = Add | Sub      | Mul       | Div   | Potencia

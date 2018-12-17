@@ -49,8 +49,8 @@ eval m (Bin op x y) =
                | otherwise  -> 0
 
     Negativo   -> (-1)* vx
-    Negacao    | ( vx == 0 || vy == 0 ) -> 1
-               | otherwise              -> 0
+    Negacao    | vx == 0    -> 1
+               | otherwise  -> 0
   where
     vx = eval m x
     vy = eval m y
